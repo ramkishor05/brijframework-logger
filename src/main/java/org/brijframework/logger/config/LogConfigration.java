@@ -4,10 +4,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.brijframework.config.Configration;
+import org.brijframework.config.EnvConfigration;
 import org.brijframework.logger.constant.LogLevel;
 
-public class LogConfigration implements Configration {
+public class LogConfigration implements EnvConfigration {
     
 	private String dateformat="";
 	private LogLevel level=LogLevel.INFO;
@@ -51,6 +51,12 @@ public class LogConfigration implements Configration {
 
 	public void setLevel(LogLevel level) {
 		this.level = level;
+	}
+
+	@Override
+	public Properties getProperties() {
+		// TODO Auto-generated method stub
+		return null;
 	}
      
 }

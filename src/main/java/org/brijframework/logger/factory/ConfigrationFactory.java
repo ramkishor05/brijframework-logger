@@ -5,13 +5,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.brijframework.config.Configration;
+import org.brijframework.config.EnvConfigration;
 import org.brijframework.logger.config.LogConfigration;
 import org.brijframework.logger.util.LoggerUtil;
 
 public class ConfigrationFactory {
 
-	private org.brijframework.config.Configration configration;
+	private org.brijframework.config.EnvConfigration configration;
 	
 	private static ConfigrationFactory factory;
 	
@@ -24,11 +24,11 @@ public class ConfigrationFactory {
 		return factory;
 	}
 	
-	public Configration getConfigration() {
+	public EnvConfigration getConfigration() {
 		return configration;
 	}
 	
-	public Configration setConfigration(File configration) {
+	public EnvConfigration setConfigration(File configration) {
 		Properties properties=new Properties();
 		try {
 			properties.load(new FileInputStream(configration));
