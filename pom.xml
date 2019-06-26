@@ -19,7 +19,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.brijframework</groupId>
-			<artifactId>org.brijframework-base</artifactId>
+			<artifactId>brijframework-asm</artifactId>
 			<version>0.0.1</version>
 		</dependency>
 	</dependencies>
