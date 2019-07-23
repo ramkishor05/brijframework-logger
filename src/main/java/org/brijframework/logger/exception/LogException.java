@@ -1,22 +1,24 @@
-package org.brijframework.logger;
+package org.brijframework.logger.exception;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import org.brijframework.logger.LoggerDetail;
 import org.brijframework.logger.constant.LogAccess;
 import org.brijframework.logger.constant.LogLevel;
 import org.brijframework.logger.container.LoggerContainer;
 import org.brijframework.logger.util.LoggerUtil;
+import org.brijframework.monitor.factories.SessionScopeMonitorFactroy;
 
-public class LogTracker extends RuntimeException {
+public class LogException extends RuntimeException {
 	/**
 	 * 
 	 */
 	static LoggerContainer loggerContainer = LoggerContainer.getContainer();
 	private static final long serialVersionUID = 1L;
-	public LogTracker() {
+	public LogException() {
 	}
-	public LogTracker(String logID, LogAccess access, Object obj, String message, LogLevel level) {
+	public LogException(String logID, LogAccess access, Object obj, String message, LogLevel level) {
 		super(message, new Throwable(message));
 		switch (level) {
 		case TRACE:
@@ -34,26 +36,6 @@ public class LogTracker extends RuntimeException {
 		case ERROR:
 			error(logID, access, obj, this, message);
 			break;
-		case ADD:
-			break;
-		case CUSTOM:
-			break;
-		case DELETE:
-			break;
-		case LOAD:
-			break;
-		case NOTIFIY:
-			break;
-		case PROCESS:
-			break;
-		case SAVE:
-			break;
-		case SEARCH:
-			break;
-		case SUCCESS:
-			break;
-		case UPDATE:
-			break;
 		default:
 			break;
 		}
@@ -62,35 +44,26 @@ public class LogTracker extends RuntimeException {
 	//                              INFO
 	public static void info(String logID, LogAccess access, Object obj, Exception exception, String message) {
 		LoggerUtil.writeLog("LOG INFO-------------- x ----------------------------x--------------------------");
-		LogModel log = new LogModel(logID, "",LogLevel.INFO,  access, exception);
-		log.logID = LogManager.getLogManager().getLoggerID("requestID") == null ? LogManager.getLogManager().getLoggerID() : LogManager.getLogManager().getLoggerID("requestID");
-		log.level = LogLevel.INFO;
-		log.getDetails().add(new LogDetail(log, message));
-		loggerContainer.addContainer(LogLevel.INFO.toString(), log.logID.toString(), log);
+		LoggerDetail log = new LoggerDetail(logID, SessionScopeMonitorFactroy.factory().currentService().getId(),LogLevel.INFO,  access, exception);
 		System.err.println(LogLevel.INFO + " : " + message);
 		LoggerUtil.writeLog(exception.getMessage());
+		loggerContainer.add(LogLevel.INFO.toString(), log.getLoggerId(), log);
 	}
 
 	public static void info(String logID, LogAccess access, Object obj, String message) {
 		LoggerUtil.writeLog("LOG INFO-------------- x ----------------------------x--------------------------");
 		System.err.println(LogLevel.INFO + " : " + message);
 		LoggerUtil.writeLog(LogLevel.INFO + " :" + message);
-		LogModel log = new LogModel(logID, "",LogLevel.INFO,  access,message);
-		log.logID = LogManager.getLogManager().getLoggerID("requestID") == null ? LogManager.getLogManager().getLoggerID() : LogManager.getLogManager().getLoggerID("requestID");
-		log.level = LogLevel.INFO;
-		log.getDetails().add(new LogDetail(log, message));
-		loggerContainer.addContainer(LogLevel.INFO.toString(), log.logID.toString(), log);
+		LoggerDetail log = new LoggerDetail(logID, SessionScopeMonitorFactroy.factory().currentService().getId(),LogLevel.INFO,  access);
+		loggerContainer.add(LogLevel.INFO.toString(), log.getLoggerId(), log);
 	}
 
 	public static void info(String logID, LogAccess access, String message) {
 		LoggerUtil.writeLog("LOG INFO-------------- x ----------------------------x--------------------------");
 		System.err.println(LogLevel.INFO + " : " + message);
 		LoggerUtil.writeLog(LogLevel.INFO + " :" + message);
-		LogModel logBuilder =  new LogModel(logID, "",LogLevel.INFO,  access,message);
-		logBuilder.logID = LogManager.getLogManager().getLoggerID("requestID") == null ? LogManager.getLogManager().getLoggerID() : LogManager.getLogManager().getLoggerID("requestID");
-		logBuilder.level = LogLevel.INFO;
-		logBuilder.access = access;
-		loggerContainer.addContainer(LogLevel.INFO.toString(), logBuilder.logID.toString(), logBuilder);
+		LoggerDetail log = new LoggerDetail(logID, SessionScopeMonitorFactroy.factory().currentService().getId(),LogLevel.INFO,  access);
+		loggerContainer.add(LogLevel.INFO.toString(), log.getLoggerId(), log);
 	}
 	// WARN
 
@@ -98,22 +71,16 @@ public class LogTracker extends RuntimeException {
 		LoggerUtil.writeLog("LOG WARN-------------- x ----------------------------x--------------------------");
 		System.err.println("Warning :" + message);
 		LoggerUtil.writeLog(exception.getMessage());
-		LogModel logBuilder = new LogModel(logID, "",LogLevel.INFO,  access,message);
-		logBuilder.logID = LogManager.getLogManager().getLoggerID("requestID") == null ? LogManager.getLogManager().getLoggerID() : LogManager.getLogManager().getLoggerID("requestID");
-		logBuilder.level = LogLevel.WARN;
-		logBuilder.access = access;
-		loggerContainer.addContainer(LogLevel.WARN.toString(), logBuilder.logID.toString(), logBuilder);
+		LoggerDetail log = new LoggerDetail(logID, SessionScopeMonitorFactroy.factory().currentService().getId(),LogLevel.WARN,  access);
+		loggerContainer.add(LogLevel.WARN.toString(), log.getLoggerId(), log);
 	}
 
 	public static void warning(String logID, LogAccess access, Object obj, String message) {
 		LoggerUtil.writeLog("LOG WARN-------------- x ----------------------------x--------------------------");
 		System.err.println(LogLevel.WARN + " :" + message);
 		LoggerUtil.writeLog(LogLevel.WARN + " : " + message);
-		LogModel logBuilder =  new LogModel(logID, "",LogLevel.INFO,  access,message);
-		logBuilder.logID = LogManager.getLogManager().getLoggerID("requestID") == null ? LogManager.getLogManager().getLoggerID() : LogManager.getLogManager().getLoggerID("requestID");
-		logBuilder.level = LogLevel.WARN;
-		logBuilder.access = access;
-		loggerContainer.addContainer(LogLevel.WARN.toString(), logBuilder.logID.toString(), logBuilder);
+		LoggerDetail log = new LoggerDetail(logID, SessionScopeMonitorFactroy.factory().currentService().getId(),LogLevel.WARN,  access);
+		loggerContainer.add(LogLevel.WARN.toString(), log.getLoggerId(), log);
 	}
 
 	public static void trace(String logID, LogAccess access, Object obj, Exception exception, String message) {
@@ -125,11 +92,8 @@ public class LogTracker extends RuntimeException {
 		System.err.println(LogLevel.TRACE + "       : | " + obj.getClass() + " | " + message + " ");
 		LoggerUtil.writeLog("Stack Trace:" + stringWriter.toString());
 		System.err.println("Stack Trace : " + stringWriter.toString());
-		LogModel logBuilder =  new LogModel(logID, "",LogLevel.INFO,  access,message);
-		logBuilder.logID = LogManager.getLogManager().getLoggerID("requestID") == null ? LogManager.getLogManager().getLoggerID() : LogManager.getLogManager().getLoggerID("requestID");
-		logBuilder.level = LogLevel.TRACE;
-		logBuilder.access = access;
-		loggerContainer.addContainer(LogLevel.TRACE.toString(), logBuilder.logID.toString(), logBuilder);
+		LoggerDetail log = new LoggerDetail(logID, SessionScopeMonitorFactroy.factory().currentService().getId(),LogLevel.TRACE,  access);
+		loggerContainer.add(LogLevel.TRACE.toString(), log.getLoggerId(), log);
 	}
 
 	public static void trace(String logID, LogAccess access, String message, Exception exception) {
@@ -140,11 +104,8 @@ public class LogTracker extends RuntimeException {
 		printWriter.flush();
 		LoggerUtil.writeLog("Stack Trace:" + stringWriter.toString());
 		System.err.println("Stack Trace : " + stringWriter.toString());
-		LogModel logBuilder =  new LogModel(logID, "",LogLevel.INFO,  access,message);
-		logBuilder.logID = LogManager.getLogManager().getLoggerID("requestID") == null ? LogManager.getLogManager().getLoggerID() : LogManager.getLogManager().getLoggerID("requestID");
-		logBuilder.level = LogLevel.TRACE;
-		logBuilder.access = access;
-		loggerContainer.addContainer(LogLevel.TRACE.toString(), logBuilder.logID.toString(), logBuilder);
+		LoggerDetail log = new LoggerDetail(logID, SessionScopeMonitorFactroy.factory().currentService().getId(),LogLevel.TRACE,  access);
+		loggerContainer.add(LogLevel.TRACE.toString(), log.getLoggerId(), log);
 	}
 
 	public static void debug(String logID, LogAccess access, Object obj, Exception exception, String message) {
@@ -155,11 +116,8 @@ public class LogTracker extends RuntimeException {
 		PrintWriter printWriter = new PrintWriter(stringWriter);
 		printWriter.println(exception.fillInStackTrace());
 		printWriter.flush();
-		LogModel logBuilder =  new LogModel(logID, "",LogLevel.INFO,  access,message);
-		logBuilder.logID = LogManager.getLogManager().getLoggerID("requestID") == null ? LogManager.getLogManager().getLoggerID() : LogManager.getLogManager().getLoggerID("requestID");
-		logBuilder.level = LogLevel.DEBUG;
-		logBuilder.access = access;
-		loggerContainer.addContainer(LogLevel.DEBUG.toString(), logBuilder.logID.toString(), logBuilder);
+		LoggerDetail log = new LoggerDetail(logID, SessionScopeMonitorFactroy.factory().currentService().getId(),LogLevel.TRACE,  access);
+		loggerContainer.add(LogLevel.TRACE.toString(), log.getLoggerId(), log);
 	}
 
 	public static void error(String logID, LogAccess access, Object obj, Exception exception, String message) {
@@ -171,11 +129,8 @@ public class LogTracker extends RuntimeException {
 		exception.printStackTrace(printWriter);
 		printWriter.flush();
 		LoggerUtil.writeLog("Stack Trace:" + stringWriter.toString());
-		LogModel logBuilder =  new LogModel(logID, "",LogLevel.INFO,  access,message);
-		logBuilder.logID = LogManager.getLogManager().getLoggerID("requestID") == null ? LogManager.getLogManager().getLoggerID() : LogManager.getLogManager().getLoggerID("requestID");
-		logBuilder.level = LogLevel.ERROR;
-		logBuilder.access = access;
-		loggerContainer.addContainer(LogLevel.ERROR.toString(), logBuilder.logID.toString(), logBuilder);
+		LoggerDetail log = new LoggerDetail(logID, SessionScopeMonitorFactroy.factory().currentService().getId(),LogLevel.TRACE,  access);
+		loggerContainer.add(LogLevel.TRACE.toString(), log.getLoggerId(), log);
 	}
 
 	public static void logToScreen(String logID, LogAccess access, Object obj, String err) {

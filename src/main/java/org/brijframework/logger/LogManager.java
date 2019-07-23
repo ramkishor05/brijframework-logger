@@ -4,6 +4,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.brijframework.logger.constant.LogConstant;
+import org.brijframework.logger.user.LogUser;
 import org.brijframework.logger.util.LoggerUtil;
 
 public class LogManager {

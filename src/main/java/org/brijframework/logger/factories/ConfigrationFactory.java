@@ -1,4 +1,4 @@
-package org.brijframework.logger.factory;
+package org.brijframework.logger.factories;
 
 import java.io.File;
 import java.io.FileInputStream;
