@@ -1,4 +1,4 @@
-package org.brijframework.logger;
+package org.brijframework.logger.model;
 
 import java.io.Serializable;
 import java.util.Date;

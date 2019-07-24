@@ -3,7 +3,7 @@ package org.brijframework.logger.group;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.brijframework.asm.group.DefaultGroup;
-import org.brijframework.logger.LoggerDetail;
+import org.brijframework.logger.model.LoggerDetail;
 
 public class LogGroup implements DefaultGroup{
 

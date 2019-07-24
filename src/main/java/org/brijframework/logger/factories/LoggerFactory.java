@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.brijframework.asm.factories.AbstractFactory;
-import org.brijframework.logger.LoggerDetail;
+import org.brijframework.logger.model.LoggerDetail;
 import org.brijframework.logger.util.LoggerUtil;
 import org.brijframework.support.config.Assignable;
 
